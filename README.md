@@ -2,6 +2,8 @@
 ```
 npm i date-picker-test-steven
 ```
+## 预览效果
+![enter image description here](https://github.com/zuorong/vue-mobile-datepicker/blob/master/src/assets/preview.jpg?raw=true)
 ## 属性
 | 属性  | 类型  |  默认值 | 描述  |
 | ------------ | ------------ | ------------ | ------------ |
