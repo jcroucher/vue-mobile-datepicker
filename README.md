@@ -17,6 +17,19 @@ npm i date-picker-test-steven
 | ------------ | ------------ | ------------ |
 |  **change**  |  function  |  返回年月日(string),例如：2019-03-10 |
 |  **cancel**  |  function  |  取消事件 |
+## 使用方法
+```
+# 全局注册组件
+import datepicker from 'vue-mobile-datepicker'
+Vue.component('Datepicker', datepicker)
+```
+```
+# 局部注册组件
+import Datepicker from 'vue-mobile-datepicker'
+export default {
+  components: { Datepicker }
+}
+```
 ## example运行
 ```
 npm run serve
