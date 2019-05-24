@@ -1,7 +1,18 @@
 {
-  "name": "example",
-  "version": "0.1.0",
-  "private": true,
+  "name": "vue-mobile-datepicker",
+  "version": "1.0.0",
+  "description": "this is a vue2.x mobile datepicker",
+  "author": "dengzuorong",
+  "license": "ISC",
+  "main": "index.js",
+  "keywords": [
+    "vue-datepicker",
+    "vue-mobile",
+    "mobile-date",
+    "mobile-datepicker",
+    "vue-calendar",
+    "vue-mobile-calendar"
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",

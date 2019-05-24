@@ -1,18 +1,36 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="openDate">选择日期</button>
+    <Datepicker
+      :visible.sync="isShow"
+      @change="onChange"
+      @cancel="onCancel"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Datepicker from '@/components/datepicker'
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    Datepicker
+  },
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  methods: {
+    openDate () {
+      this.isShow = true
+    },
+    onChange (date) {
+      console.log(date)
+    },
+    onCancel () {
+      console.log('cancel')
+    }
   }
 }
 </script>
