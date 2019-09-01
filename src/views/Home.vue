@@ -3,6 +3,7 @@
     <button @click="openDate">选择日期</button>
     <Datepicker
       :visible.sync="isShow"
+      :startDate.sync="startDate"
       @change="onChange"
       @cancel="onCancel"
     />
@@ -18,7 +19,8 @@ export default {
   },
   data () {
     return {
-      isShow: false
+      isShow: false,
+      startDate: '2019-10-03'
     }
   },
   methods: {

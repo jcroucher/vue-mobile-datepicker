@@ -4,7 +4,7 @@
       <div class="picker" @click.stop="onStopProgation">
         <div class="header">
           <div class="year" @click="onOpenList('year')">{{currentYear}}年</div>
-          <div class="month" @click="onOpenList('month')">{{currentMonth + 1}}月{{currentDay}}日</div>
+          <div class="month" @click="onOpenList('month')">{{getCurrentMonth(currentMonth)}}月{{getCurrentDay(currentDay)}}日</div>
         </div>
         <div class="container" v-if="!isShow">
           <div class="navigation">
@@ -21,7 +21,7 @@
             </template>
             <div :class="{cell: true, active: item === currentDateRemark.getDate() && currentDateRemark.getMonth() === currentMonth && currentDateRemark.getFullYear() === currentYear}" v-for="(item, index) in days" :key="index + 's'">
             <!-- <div :class="{cell: true, active: item === currentDay}" v-for="(item, index) in days" :key="index + 's'"> -->
-              <span>{{item}}</span>
+              <span>{{item * 1 < 10 ? '0' + item : item}}</span>
               <i></i>
             </div>
           </div>
@@ -69,6 +69,7 @@ export default {
       let body = document.body
       if (val) {
         body.style.position = 'fixed'
+        this.initCreated()
       } else {
         body.style.position = 'static'
       }
@@ -90,24 +91,38 @@ export default {
     }
   },
   created () {
-    if (this.startDate) {
-      this.currentDate = new Date(this.startDate)
-    } else {
-      this.currentDate = new Date()
-    }
-    this.currentYear = this.currentDate.getFullYear()
-    this.currentMonth = this.currentDate.getMonth()
-    this.currentDay = this.currentDate.getDate()
-    this.currentDateRemark = new Date()
-    let { currentYear, currentMonth } = this
-    this.initDate(currentYear, currentMonth)
+    this.initCreated()
   },
   methods: {
+    initCreated () {
+      if (this.startDate) {
+        this.currentDate = new Date(this.startDate)
+        this.currentDateRemark = new Date(this.startDate)
+      } else {
+        this.currentDate = new Date()
+        this.currentDateRemark = new Date()
+      }
+      this.currentYear = this.currentDate.getFullYear()
+      this.currentMonth = this.currentDate.getMonth()
+      this.currentDay = this.currentDate.getDate()
+      // this.currentDateRemark = new Date()
+      let { currentYear, currentMonth } = this
+      this.initDate(currentYear, currentMonth)
+    },
     initDate (currentYear, currentMonth) {
       let spaceDays = this.getWeek(currentYear, currentMonth) - 1
       let days = this.getDay(currentYear, currentMonth)
       this.spaceDays = spaceDays
       this.days = days
+    },
+    getCurrentMonth (currentMonth) {
+      let month = currentMonth + 1
+      month = month < 10 ? '0' + month : month
+      return month
+    },
+    getCurrentDay (currentDay) {
+      let day = currentDay < 10 ? '0' + currentDay : currentDay
+      return day
     },
     onStopProgation () {
     },
@@ -207,6 +222,7 @@ export default {
       let date = year + '-' + month + '-' + day
       this.$emit('change', date)
       this.$emit('update:visible', false)
+      this.$emit('update:startDate', date)
       this.isShow = false
     },
     onCancel () {
