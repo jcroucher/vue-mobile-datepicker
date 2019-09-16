@@ -75,7 +75,6 @@ export default {
   },
   created () {
     this.initCreated()
-    this.weeks = this.lang.weeks
 
     // Select the current language, default to cn
     let currentLanguage = this.language
@@ -84,6 +83,7 @@ export default {
     }
 
     this.lang = require('./../../lang/' + currentLanguage + '.js')
+    this.weeks = this.lang.weeks
   },
   methods: {
     initCreated () {
