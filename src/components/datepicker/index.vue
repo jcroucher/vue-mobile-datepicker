@@ -3,7 +3,7 @@
     <div class="picker-wrap" @click="onCancel" @touchmove.prevent="onStopProgation" v-if="visible">
       <div class="picker" @click.stop="onStopProgation">
         <div class="header">
-          <div class="year" @click="onOpenList('year')">{{currentYear}}{{lang.year}}</div>
+          <div class="year" @click="onOpenList('year')">{{currentYear}}{{ lang.name === 'cn' ? lang.year : ''}}</div>
           <div class="month" @click="onOpenList('month')">{{getCurrentMonth(currentMonth)}}{{lang.month}} - {{getCurrentDay(currentDay)}}{{lang.day}}</div>
         </div>
         <div class="container" v-if="!isShow">
