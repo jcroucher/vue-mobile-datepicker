@@ -3,13 +3,13 @@
     <div class="picker-wrap" @click="onCancel" @touchmove.prevent="onStopProgation" v-if="visible">
       <div class="picker" @click.stop="onStopProgation">
         <div class="header">
-          <div class="year" @click="onOpenList('year')">{{currentYear}}年</div>
-          <div class="month" @click="onOpenList('month')">{{getCurrentMonth(currentMonth)}}月{{getCurrentDay(currentDay)}}日</div>
+          <div class="year" @click="onOpenList('year')">{{currentYear}}{{lang.year}}</div>
+          <div class="month" @click="onOpenList('month')">{{getCurrentMonth(currentMonth)}}{{lang.month}} - {{getCurrentDay(currentDay)}}{{lang.day}}</div>
         </div>
         <div class="container" v-if="!isShow">
           <div class="navigation">
             <span class="prev" @click="onPrev"></span>
-            <div>{{currentMonth | formaterMonth}} {{currentYear}}年</div>
+            <div>{{formaterMonth(currentMonth)}} {{currentYear}}{{lang.name === 'cn' ? lang.year : ''}}</div>
             <span class="next" @click="onNext"></span>
           </div>
           <ul class="week">
@@ -26,13 +26,13 @@
             </div>
           </div>
           <div class="footer">
-            <button @click="onCancel">{{cancelText || '取消'}}</button>
-            <button @click="onConfirm">{{confirmText || '确定'}}</button>
+            <button @click="onCancel">{{cancelText || lang.cancel}}</button>
+            <button @click="onConfirm">{{confirmText || lang.ok}}</button>
           </div>
         </div>
         <div class="months-wrap" v-if="isShow" ref="monthsRef">
           <ul class="months" @click="onSelectList($event)" @touchmove.stop="onStopProgation">
-            <li v-for="(item, index) in list" :class="{active: (selectedType === 'month' && currentMonth === index) || (selectedType === 'year' && currentYear === item)}" :year="item" :id="index" :key="index">{{item}} {{selectedType === 'year' ? '年' : ''}}</li>
+            <li v-for="(item, index) in list" :class="{active: (selectedType === 'month' && currentMonth === index) || (selectedType === 'year' && currentYear === item)}" :year="item" :id="index" :key="index">{{item}} {{selectedType === 'year' && lang.name === 'cn' ? lang.year : ''}}</li>
           </ul>
         </div>
       </div>
@@ -42,28 +42,10 @@
 
 <script>
 /* eslint-disable */
+
 export default {
   name: 'Picker',
-  filters: {
-    formaterMonth (val) {
-      let month = {
-        0: '一月',
-        1: '二月',
-        2: '三月',
-        3: '四月',
-        4: '五月',
-        5: '六月',
-        6: '七月',
-        7: '八月',
-        8: '九月',
-        9: '十月',
-        10: '十一月',
-        11: '十二月'
-      }
-      return month[val]
-    }
-  },
-  props: ['visible', 'startDate', 'confirmText', 'cancelText'],
+  props: ['visible', 'startDate', 'confirmText', 'cancelText', 'language'],
   watch: {
     visible (val) {
       let body = document.body
@@ -77,7 +59,8 @@ export default {
   },
   data () {
     return {
-      weeks: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+      lang: {},
+      weeks: [],
       days: [],
       spaceDays: [],
       currentDate: null,
@@ -92,6 +75,15 @@ export default {
   },
   created () {
     this.initCreated()
+    this.weeks = this.lang.weeks
+
+    // Select the current language, default to cn
+    let currentLanguage = this.language
+    if (typeof this.language === 'undefined') {
+      currentLanguage = 'cn'
+    }
+
+    this.lang = require('./../../lang/' + currentLanguage + '.js')
   },
   methods: {
     initCreated () {
@@ -148,7 +140,7 @@ export default {
     },
     onOpenList (type) {
       if (type === 'month') {
-        this.list = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+        this.list = this.lang.months
       } else {
         let years = []
         let yearRange = this.currentDateRemark.getFullYear()
@@ -229,6 +221,9 @@ export default {
       this.$emit('update:visible', false)
       this.$emit('cancel')
       this.isShow = false
+    },
+    formaterMonth (val) {
+      return this.lang.months[val]
     }
   }
 }
@@ -274,11 +269,13 @@ ul{
   color: #fefefe;
   font-weight: bold;
   font-size: 18px;
+  cursor: pointer;
 }
 .header .month{
   color: #fff;
   font-size: 28px;
   line-height: 1;
+  cursor: pointer;
 }
 .navigation{
   margin: 13px 20px;
