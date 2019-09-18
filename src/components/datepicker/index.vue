@@ -261,7 +261,7 @@ ul{
   flex-direction: column;
 }
 .header{
-  height: 48px;
+  height: auto;
   background: #29d1b4;
   padding: 18px 30px;
 }
@@ -304,10 +304,12 @@ ul{
 }
 .navigation .prev{
   padding-left: 5%;
+  cursor: pointer;
 }
 .navigation .next{
   justify-content: flex-end;
   padding-right: 5%;
+  cursor: pointer;
 }
 .navigation div{
   flex: 1;
@@ -342,6 +344,7 @@ ul{
 .day div span{
   position: relative;
   z-index: 2;
+  cursor: pointer;
 }
 .day div i{
   opacity: 0;
@@ -375,6 +378,8 @@ ul{
   -webkit-appearance: none;
   background: none;
   border: none;
+  cursor: pointer;
+  outline: none;
 }
 .months-wrap{
   flex: 1;
@@ -390,10 +395,16 @@ ul{
   line-height: 35px;
   font-weight: bold;
   transition: all 0.1s;
+  cursor: pointer;
 }
 .months li.active{
   font-size: 24px;
   color: #29d1b4;
+}
+
+.months li:hover{
+  background-color: #29d1b4;
+  color: white;
 }
 .picker-fade-enter-active, .picker-fade-leave-active{
   transition: all .5s;
